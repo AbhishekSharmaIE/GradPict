@@ -1,0 +1,43 @@
+{% extends 'yearbook/base.html' %}
+
+{% block title %}My Dashboard - GradPict{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col">
+            <h2>My Scraps</h2>
+            <a href="{% url 'create_scrap' %}" class="btn btn-primary">Create New Scrap</a>
+        </div>
+    </div>
+
+    {% if scraps %}
+        <div class="row">
+            {% for scrap in scraps %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    {% if scrap.images.first %}
+                    <img src="{{ scrap.images.first.image.url }}" class="card-img-top" alt="{{ scrap.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ scrap.title }}</h5>
+                        <p class="card-text">{{ scrap.content|truncatewords:30 }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="badge bg-primary">{{ scrap.scrap_type }}</span>
+                                <span class="badge bg-secondary">{{ scrap.privacy }}</span>
+                            </div>
+                            <a href="{% url 'view_scrap' scrap.id %}" class="btn btn-primary">View</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            <p>You haven't created any scraps yet. <a href="{% url 'create_scrap' %}">Create your first scrap</a> to get started!</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %} 

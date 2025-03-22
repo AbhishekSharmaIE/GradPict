@@ -6,12 +6,12 @@ from .models import Profile
 User = get_user_model()
 
 @receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
+def handle_user_profile(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(user=instance)
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    if not hasattr(instance, 'profile'):
-        Profile.objects.create(user=instance)
-    instance.profile.save() 
+        # Only create a profile if one doesn't already exist
+        if not hasattr(instance, 'profile'):
+            Profile.objects.create(user=instance)
+    else:
+        # For existing users, only save the profile if it exists
+        if hasattr(instance, 'profile'):
+            instance.profile.save() 

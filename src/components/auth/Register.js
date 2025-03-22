@@ -24,6 +24,7 @@ import {
 } from '../../utils/constants';
 import { validateUniversityEmail, getUniversityCourses } from '../../utils/universityData';
 import UniversityLogo from '../common/UniversityLogo';
+import { CloudUploadIcon } from '@mui/icons-material';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ const Register = () => {
     password: '',
     confirmPassword: '',
     university: '',
+    college_name: '',
     graduation_year: '',
     degree_type: '',
     course_name: '',
@@ -168,22 +170,22 @@ const Register = () => {
           </Alert>
         )}
         <form onSubmit={handleSubmit}>
-          <Grid container spacing={2}>
+          <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
               <TextField
-                required
                 fullWidth
                 label="Username"
                 value={formData.username}
                 onChange={(e) => setFormData({...formData, username: e.target.value})}
+                error={!!error}
+                helperText={error}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-                required
                 fullWidth
-                type="email"
                 label="Email"
+                type="email"
                 value={formData.email}
                 onChange={handleEmailChange}
                 error={!!emailError}
@@ -191,74 +193,81 @@ const Register = () => {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <FormControl fullWidth required>
-                <InputLabel>University</InputLabel>
-                <Select
-                  value={formData.university}
-                  label="University"
-                  onChange={(e) => setFormData({...formData, university: e.target.value})}
-                >
-                  {IRISH_UNIVERSITIES.map((uni) => (
-                    <MenuItem key={uni} value={uni}>{uni}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              <TextField
+                fullWidth
+                label="Password"
+                type="password"
+                value={formData.password}
+                onChange={(e) => setFormData({...formData, password: e.target.value})}
+                error={!!error}
+                helperText={error}
+              />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <FormControl fullWidth required>
-                <InputLabel>Graduation Year</InputLabel>
-                <Select
-                  value={formData.graduation_year}
-                  label="Graduation Year"
-                  onChange={(e) => setFormData({...formData, graduation_year: e.target.value})}
-                >
-                  {GRADUATION_YEARS.map((year) => (
-                    <MenuItem key={year} value={year}>{year}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              <TextField
+                fullWidth
+                label="Confirm Password"
+                type="password"
+                value={formData.confirmPassword}
+                onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
+                error={!!error}
+                helperText={error}
+              />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <FormControl fullWidth required>
-                <InputLabel>Degree Type</InputLabel>
-                <Select
-                  value={formData.degree_type}
-                  label="Degree Type"
-                  onChange={(e) => setFormData({...formData, degree_type: e.target.value})}
-                >
-                  {DEGREE_TYPES.map((degree) => (
-                    <MenuItem key={degree.value} value={degree.value}>
-                      {degree.label}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              <TextField
+                fullWidth
+                label="University"
+                value={formData.university}
+                onChange={(e) => setFormData({...formData, university: e.target.value})}
+                error={!!error}
+                helperText={error}
+              />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <FormControl fullWidth required>
-                <InputLabel>Course Name</InputLabel>
-                <Select
-                  value={formData.course_name}
-                  label="Course Name"
-                  onChange={(e) => setFormData({...formData, course_name: e.target.value})}
-                >
-                  <MenuItem value="other">Add Custom Course</MenuItem>
-                  {suggestedCourses.map((course) => (
-                    <MenuItem key={course} value={course}>
-                      {course}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              <TextField
+                fullWidth
+                label="College Name"
+                value={formData.college_name}
+                onChange={(e) => setFormData({...formData, college_name: e.target.value})}
+                error={!!error}
+                helperText={error}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Graduation Year"
+                type="number"
+                value={formData.graduation_year}
+                onChange={(e) => setFormData({...formData, graduation_year: e.target.value})}
+                error={!!error}
+                helperText={error}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                select
+                label="Degree Type"
+                value={formData.degree_type}
+                onChange={(e) => setFormData({...formData, degree_type: e.target.value})}
+                error={!!error}
+                helperText={error}
+              >
+                <MenuItem value="Bachelor's">Bachelor's</MenuItem>
+                <MenuItem value="Master's">Master's</MenuItem>
+                <MenuItem value="PhD">PhD</MenuItem>
+              </TextField>
             </Grid>
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                multiline
-                rows={3}
-                label="Bio"
-                value={formData.bio}
-                onChange={(e) => setFormData({...formData, bio: e.target.value})}
+                label="Course Name"
+                value={formData.course_name}
+                onChange={(e) => setFormData({...formData, course_name: e.target.value})}
+                error={!!error}
+                helperText={error}
               />
             </Grid>
             <Grid item xs={12}>
@@ -279,9 +288,10 @@ const Register = () => {
                 </Box>
               )}
               <Button
-                variant="outlined"
                 component="label"
+                variant="outlined"
                 fullWidth
+                startIcon={<CloudUploadIcon />}
               >
                 Upload Profile Photo
                 <input
@@ -292,24 +302,14 @@ const Register = () => {
                 />
               </Button>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <TextField
-                required
                 fullWidth
-                type="password"
-                label="Password"
-                value={formData.password}
-                onChange={(e) => setFormData({...formData, password: e.target.value})}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                type="password"
-                label="Confirm Password"
-                value={formData.confirmPassword}
-                onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
+                multiline
+                rows={3}
+                label="Bio"
+                value={formData.bio}
+                onChange={(e) => setFormData({...formData, bio: e.target.value})}
               />
             </Grid>
           </Grid>

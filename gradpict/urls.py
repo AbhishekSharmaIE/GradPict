@@ -18,22 +18,17 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from drf_yasg.views import get_schema_view
-from drf_yasg import openapi
-from rest_framework import permissions
-
-schema_view = get_schema_view(
-    openapi.Info(
-        title="GradPict API",
-        default_version='v1',
-        description="API for GradPict yearbook application",
-    ),
-    public=True,
-    permission_classes=(permissions.AllowAny,),
-)
+from django.contrib.auth import views as auth_views
+from yearbook.views import home, dashboard, create_scrap, view_scrap, register, profile, login_view, logout_view
 
 urlpatterns = [
+    path('', home, name='home'),
     path('admin/', admin.site.urls),
-    path('api/', include('yearbook.urls')),
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0)),
+    path('dashboard/', dashboard, name='dashboard'),
+    path('create/', create_scrap, name='create_scrap'),
+    path('scrap/<int:scrap_id>/', view_scrap, name='view_scrap'),
+    path('register/', register, name='register'),
+    path('login/', login_view, name='login'),
+    path('logout/', logout_view, name='logout'),
+    path('profile/', profile, name='profile'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -109,9 +109,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Media files configuration
+# Media files (User uploaded files)
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Static files configuration
 STATIC_URL = '/static/'
@@ -119,8 +119,8 @@ STATIC_ROOT = BASE_DIR / 'static'
 
 # Update CORS settings for development
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
+    "http://localhost:3003",
+    "http://127.0.0.1:3003",
 ]
 CORS_ALLOW_CREDENTIALS = True
 
@@ -253,6 +253,10 @@ EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+
+# Authentication Settings
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGIN_URL = 'login'
 
 # Cache Configuration (using Redis as an example)
 CACHES = {

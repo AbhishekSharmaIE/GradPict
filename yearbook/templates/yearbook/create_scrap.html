@@ -1,0 +1,83 @@
+{% extends 'yearbook/base.html' %}
+
+{% block title %}Create New Scrap - GradPict{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="text-center">Create New Scrap</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="title" name="title" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="content" class="form-label">Content</label>
+                            <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="scrap_type" class="form-label">Type</label>
+                            <select class="form-select" id="scrap_type" name="scrap_type" required>
+                                <option value="memory">Memory</option>
+                                <option value="achievement">Achievement</option>
+                                <option value="event">Event</option>
+                                <option value="scrap">Scrap Message</option>
+                                <option value="photo">Photo Album</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="privacy" class="form-label">Privacy</label>
+                            <select class="form-select" id="privacy" name="privacy" required>
+                                <option value="public">Public</option>
+                                <option value="private">Private</option>
+                                <option value="university">University Only</option>
+                                <option value="friends">Friends Only</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="university" class="form-label">University</label>
+                            <input type="text" class="form-control" id="university" name="university" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="graduation_year" class="form-label">Graduation Year</label>
+                            <input type="text" class="form-control" id="graduation_year" name="graduation_year" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="location" class="form-label">Location (Optional)</label>
+                            <input type="text" class="form-control" id="location" name="location">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="tags" class="form-label">Tags (Optional)</label>
+                            <input type="text" class="form-control" id="tags" name="tags" placeholder="Separate tags with commas">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="images" class="form-label">Images</label>
+                            <input type="file" class="form-control" id="images" name="images" multiple accept="image/*">
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Create Scrap</button>
+                            <a href="{% url 'dashboard' %}" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
