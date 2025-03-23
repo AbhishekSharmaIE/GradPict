@@ -1,42 +1,46 @@
 {% extends 'yearbook/base.html' %}
 
-{% block title %}Create New Scrap - GradPict{% endblock %}
+{% block title %}Create New Memory - GradPict{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="text-center">Create New Scrap</h3>
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="text-center mb-0">
+                        <i class="fas fa-plus-circle me-2"></i>Create New Memory
+                    </h3>
                 </div>
                 <div class="card-body">
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         
                         <div class="mb-3">
-                            <label for="title" class="form-label">Title</label>
-                            <input type="text" class="form-control" id="title" name="title" required>
+                            <label for="title" class="form-label">Memory Title</label>
+                            <input type="text" class="form-control" id="title" name="title" required 
+                                   placeholder="Give your memory a meaningful title">
                         </div>
                         
                         <div class="mb-3">
-                            <label for="content" class="form-label">Content</label>
-                            <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
+                            <label for="content" class="form-label">Memory Description</label>
+                            <textarea class="form-control" id="content" name="content" rows="4" required
+                                    placeholder="Share your graduation memory..."></textarea>
                         </div>
                         
                         <div class="mb-3">
-                            <label for="scrap_type" class="form-label">Type</label>
+                            <label for="scrap_type" class="form-label">Memory Type</label>
                             <select class="form-select" id="scrap_type" name="scrap_type" required>
-                                <option value="memory">Memory</option>
+                                <option value="memory">Graduation Memory</option>
                                 <option value="achievement">Achievement</option>
-                                <option value="event">Event</option>
-                                <option value="scrap">Scrap Message</option>
+                                <option value="event">Special Event</option>
+                                <option value="scrap">Message</option>
                                 <option value="photo">Photo Album</option>
                             </select>
                         </div>
                         
                         <div class="mb-3">
-                            <label for="privacy" class="form-label">Privacy</label>
+                            <label for="privacy" class="form-label">Privacy Settings</label>
                             <select class="form-select" id="privacy" name="privacy" required>
                                 <option value="public">Public</option>
                                 <option value="private">Private</option>
@@ -47,32 +51,41 @@
                         
                         <div class="mb-3">
                             <label for="university" class="form-label">University</label>
-                            <input type="text" class="form-control" id="university" name="university" required>
+                            <input type="text" class="form-control" id="university" name="university" required
+                                   placeholder="Your university name">
                         </div>
                         
                         <div class="mb-3">
                             <label for="graduation_year" class="form-label">Graduation Year</label>
-                            <input type="text" class="form-control" id="graduation_year" name="graduation_year" required>
+                            <input type="number" class="form-control" id="graduation_year" name="graduation_year" required
+                                   placeholder="e.g., 2024">
                         </div>
                         
                         <div class="mb-3">
                             <label for="location" class="form-label">Location (Optional)</label>
-                            <input type="text" class="form-control" id="location" name="location">
+                            <input type="text" class="form-control" id="location" name="location"
+                                   placeholder="Where did this memory take place?">
                         </div>
                         
                         <div class="mb-3">
                             <label for="tags" class="form-label">Tags (Optional)</label>
-                            <input type="text" class="form-control" id="tags" name="tags" placeholder="Separate tags with commas">
+                            <input type="text" class="form-control" id="tags" name="tags" 
+                                   placeholder="e.g., graduation, ceremony, friends (separate with commas)">
                         </div>
                         
                         <div class="mb-3">
-                            <label for="images" class="form-label">Images</label>
+                            <label for="images" class="form-label">Memory Photos</label>
                             <input type="file" class="form-control" id="images" name="images" multiple accept="image/*">
+                            <small class="text-muted">You can select multiple photos to share your memory</small>
                         </div>
                         
                         <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary">Create Scrap</button>
-                            <a href="{% url 'dashboard' %}" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Save Memory
+                            </button>
+                            <a href="{% url 'dashboard' %}" class="btn btn-secondary">
+                                <i class="fas fa-times me-2"></i>Cancel
+                            </a>
                         </div>
                     </form>
                 </div>

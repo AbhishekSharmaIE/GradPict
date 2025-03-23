@@ -68,11 +68,23 @@ def register(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
+            
+            # Update the existing profile with additional information
+            profile = user.profile
+            profile.university = request.POST.get('university')
+            profile.course = request.POST.get('course')
+            profile.graduation_year = request.POST.get('graduation_year')
+            
+            # Handle profile picture
+            if 'profile_picture' in request.FILES:
+                profile.profile_picture = request.FILES['profile_picture']
+            
+            profile.save()
+            
             login(request, user)
             messages.success(request, 'Registration successful! Welcome to GradPict.')
             return redirect('dashboard')
         else:
-            # Add error messages for specific validation errors
             for field, errors in form.errors.items():
                 for error in errors:
                     messages.error(request, f"{field.title()}: {error}")
@@ -81,7 +93,8 @@ def register(request):
     
     return render(request, 'yearbook/register.html', {
         'form': form,
-        'errors': form.errors
+        'errors': form.errors,
+        'universities': IRISH_UNIVERSITIES
     })
 
 @login_required
@@ -108,7 +121,7 @@ def dashboard(request):
 def create_scrap(request):
     if request.method == 'POST':
         title = request.POST.get('title')
-        content = request.POST.get('content')
+        description = request.POST.get('content')
         scrap_type = request.POST.get('scrap_type')
         privacy = request.POST.get('privacy')
         university = request.POST.get('university')
@@ -117,23 +130,29 @@ def create_scrap(request):
         tags = request.POST.get('tags')
         images = request.FILES.getlist('images')
         
-        scrap = Scrapbook.objects.create(
-            user=request.user,
-            title=title,
-            content=content,
-            scrap_type=scrap_type,
-            privacy=privacy,
-            university=university,
-            graduation_year=graduation_year,
-            location=location,
-            tags=tags
-        )
-        
-        for image in images:
-            ScrapbookImage.objects.create(scrap=scrap, image=image)
+        try:
+            scrap = Scrapbook.objects.create(
+                user=request.user,
+                title=title,
+                description=description,
+                scrap_type=scrap_type,
+                privacy=privacy,
+                university=university,
+                graduation_year=graduation_year,
+                location=location,
+                tags=tags
+            )
             
-        messages.success(request, 'Scrap created successfully!')
-        return redirect('view_scrap', scrap_id=scrap.id)
+            # Handle multiple images
+            for image in images:
+                ScrapbookImage.objects.create(scrapbook=scrap, image=image)
+                
+            messages.success(request, 'Memory created successfully!')
+            return redirect('view_scrap', scrap_id=scrap.id)
+            
+        except Exception as e:
+            messages.error(request, f'Error creating memory: {str(e)}')
+            return redirect('create_scrap')
         
     return render(request, 'yearbook/create_scrap.html')
 

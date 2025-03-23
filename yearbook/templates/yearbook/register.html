@@ -3,12 +3,14 @@
 {% block title %}Register - GradPict{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="text-center">Create Account</h3>
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="text-center mb-0">
+                        <i class="fas fa-user-plus me-2"></i>Create Your Account
+                    </h3>
                 </div>
                 <div class="card-body">
                     {% if messages %}
@@ -19,34 +21,65 @@
                         {% endfor %}
                     {% endif %}
                     
-                    <form method="post" novalidate>
+                    <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         
-                        {% for field in form %}
-                            <div class="mb-3">
-                                <label for="{{ field.id_for_label }}" class="form-label">
-                                    {{ field.label }}
-                                </label>
-                                {{ field }}
-                                {% if field.errors %}
-                                    <div class="invalid-feedback d-block">
-                                        {{ field.errors|join:", " }}
-                                    </div>
-                                {% endif %}
-                                {% if field.help_text %}
-                                    <div class="form-text">{{ field.help_text }}</div>
-                                {% endif %}
-                            </div>
-                        {% endfor %}
+                        <div class="mb-4">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control form-control-lg" id="username" name="username" required>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control form-control-lg" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="password1" class="form-label">Password</label>
+                            <input type="password" class="form-control form-control-lg" id="password1" name="password1" required>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="password2" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control form-control-lg" id="password2" name="password2" required>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="university" class="form-label">University</label>
+                            <select class="form-select form-select-lg" id="university" name="university" required>
+                                <option value="">Select your university</option>
+                                {% for university in universities %}
+                                <option value="{{ university }}">{{ university }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="course" class="form-label">Course</label>
+                            <input type="text" class="form-control form-control-lg" id="course" name="course" required
+                                   placeholder="e.g., Computer Science, Engineering">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="graduation_year" class="form-label">Expected Graduation Year</label>
+                            <input type="number" class="form-control form-control-lg" id="graduation_year" name="graduation_year" 
+                                   required min="2000" max="2028" placeholder="e.g., 2024">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="profile_picture" class="form-label">Profile Picture (Optional)</label>
+                            <input type="file" class="form-control" id="profile_picture" name="profile_picture" accept="image/*">
+                        </div>
                         
                         <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary">Register</button>
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-user-plus me-2"></i>Register
+                            </button>
+                            <a href="{% url 'login' %}" class="btn btn-secondary btn-lg">
+                                <i class="fas fa-sign-in-alt me-2"></i>Already have an account? Login
+                            </a>
                         </div>
                     </form>
-                    
-                    <div class="text-center mt-3">
-                        <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
-                    </div>
                 </div>
             </div>
         </div>

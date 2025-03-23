@@ -24,11 +24,6 @@ from yearbook.views import home, dashboard, create_scrap, view_scrap, register, 
 urlpatterns = [
     path('', home, name='home'),
     path('admin/', admin.site.urls),
-    path('dashboard/', dashboard, name='dashboard'),
-    path('create/', create_scrap, name='create_scrap'),
-    path('scrap/<int:scrap_id>/', view_scrap, name='view_scrap'),
-    path('register/', register, name='register'),
-    path('login/', login_view, name='login'),
-    path('logout/', logout_view, name='logout'),
-    path('profile/', profile, name='profile'),
+    path('', include('yearbook.urls')),  # Include yearbook URLs
+    path('api-auth/', include('rest_framework.urls')),  # DRF authentication
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
